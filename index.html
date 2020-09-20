@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: large;
+        }
+        #date {
+            width : 30%;
+            height : 100px;
+            overflow: hidden;
+        }
+        #date #time {
+            position: relative;
+            width : 50%;
+            height : 50%;
+            margin:auto;
+        }
+
+    </style>
+<script src="node_modules/vue/dist/vue.global.js"></script>
+</head>
+<body>
+
+    <div id="app">
+
+        
+        <div id="date"
+        v-bind:style="{background:date}">
+            <span v-bind:style="{color:datetextcolor}">date {{mydate}}</span>
+
+
+            <div id="time"
+            v-bind:style="{background:time}">
+            <span v-bind:style="{color:timetextcolor}">time {{mytime}}</span>
+            </div>
+    
+
+
+
+        </div>
+        
+
+        
+    </div>
+
+
+<script>
+
+   // stole this from here
+   // https://awik.io/determine-color-bright-dark-using-javascript/ 
+    function isDarkOrLight(r,g,b) {
+        let = hsp = Math.sqrt(
+            0.299 * (r * r) +
+            0.587 * (g * g) +
+            0.114 * (b * b)
+            );
+        if (hsp>127.5) {
+            return "black";
+        } else {
+            return "white";
+        }
+    }
+
+const Counter = {
+    data() {
+        return {
+            date: "#ff0000",
+            time: "#0000ff",
+            mytime : "",
+            timetextcolor : "",
+            mydate : "",
+            datetextcolor : ""
+        }
+    },
+    mounted() {
+        setInterval( () => {
+            let d = new Date();
+            let ss = d.getSeconds().toString();
+            if (ss.length==1) {
+                ss = "0" + ss;
+            }
+            let mm = d.getMinutes().toString();
+            if (mm.length==1) {
+                mm = "0" + mm;
+            }
+            let hh = d.getHours().toString();
+            if (hh.length==1) {
+                hh = "0" + hh;
+            }
+            let yy = d.getFullYear().toString().substring(2,4);
+            let mo = d.getMonth().toString();
+            if (mo.length==1) {
+                mo = "0" + mo;
+            }
+            let dd = d.getDate().toString();
+            if (dd.length==1) {
+                dd = "0" + dd;
+            }
+
+            // text of the time and date in the div
+            this.mytime = `${hh}${mm}${ss}`;
+            this.mydate = `${yy}${mo}${dd}`;
+            
+            // color for the text elements
+            this.datetextcolor = isDarkOrLight(parseInt(yy),
+                parseInt(mo),
+                parseInt(dd));
+            this.timetextcolor = isDarkOrLight(parseInt(hh),
+                parseInt(mm), parseInt(ss));
+
+            // color code for background
+            this.date = `#${hh}${mm}${ss}`;
+            this.time = `#${yy}${mo}${dd}`;
+            
+        },1000); // end setInterval
+    }
+};
+
+Vue.createApp(Counter)
+.mount('#app')
+    
+</script>
+
+</body>
+</html>
