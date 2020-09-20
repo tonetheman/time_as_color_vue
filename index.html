@@ -77,27 +77,12 @@ const Counter = {
     mounted() {
         setInterval( () => {
             let d = new Date();
-            let ss = d.getSeconds().toString();
-            if (ss.length==1) {
-                ss = "0" + ss;
-            }
-            let mm = d.getMinutes().toString();
-            if (mm.length==1) {
-                mm = "0" + mm;
-            }
-            let hh = d.getHours().toString();
-            if (hh.length==1) {
-                hh = "0" + hh;
-            }
+            let ss = d.getSeconds().toString().padStart(2,"0");
+            let mm = d.getMinutes().toString().padStart(2,"0");
+            let hh = d.getHours().toString().padStart(2,"0");
             let yy = d.getFullYear().toString().substring(2,4);
-            let mo = d.getMonth().toString();
-            if (mo.length==1) {
-                mo = "0" + mo;
-            }
-            let dd = d.getDate().toString();
-            if (dd.length==1) {
-                dd = "0" + dd;
-            }
+            let mo = d.getMonth().toString().padStart(2,"0");
+            let dd = d.getDate().toString().padStart(2,"0");
 
             // text of the time and date in the div
             this.mytime = `${hh}${mm}${ss}`;
